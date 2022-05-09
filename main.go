@@ -67,8 +67,9 @@ func server(laddr string) {
 	r.GET("/", func(c *gin.Context) {
 		if from := os.Getenv("STREAM_FROM"); from != "" {
 			c.HTML(http.StatusOK, "index.tmpl", gin.H{
-				"rate": monitor.Status().CurRate / (1 << 20),
-				"from": os.Getenv("STREAM_FROM"),
+				"rateKB": monitor.Status().CurRate / (1 << 10),
+				"rateMB": monitor.Status().CurRate / (1 << 20),
+				"from":   os.Getenv("STREAM_FROM"),
 			})
 		} else {
 			c.String(http.StatusOK, "STREAM_FROM missing")
